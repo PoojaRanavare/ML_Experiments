@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Counterfeit Banknote Detection</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #101827, #244766);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #1d2939;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #bdcddd;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #50647b;
+            border-radius: 8px;
+            background: #101827;
+            color: white;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #38d9c0;
+            border-color: transparent;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #38d9c0;
+            color: #102331;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background: #7cebd9;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .result h2 {
+            font-size: 17px;
+            margin-top: 0;
+        }
+
+        .genuine {
+            background: #164e3b;
+            border: 1px solid #34d399;
+            color: #d1fae5;
+        }
+
+        .counterfeit {
+            background: #57252e;
+            border: 1px solid #fb7185;
+            color: #ffe4e6;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 14px;
+            background: #57252e;
+            color: #ffe4e6;
+            border-radius: 8px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 12px;
+            color: #a9bacb;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 23px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Banknote Authentication</h1>
+
+        <p class="subtitle">
+            Counterfeit Banknote Detection using Linear SVM
+        </p>
+
+        <form method="POST">
+
+            <div class="field">
+                <label for="variance">Variance</label>
+                <input type="number" step="any"
+                       id="variance" name="variance"
+                       placeholder="Enter variance"
+                       value="{{ values.variance }}" required>
+            </div>
+
+            <div class="field">
+                <label for="skewness">Skewness</label>
+                <input type="number" step="any"
+                       id="skewness" name="skewness"
+                       placeholder="Enter skewness"
+                       value="{{ values.skewness }}" required>
+            </div>
+
+            <div class="field">
+                <label for="curtosis">Curtosis</label>
+                <input type="number" step="any"
+                       id="curtosis" name="curtosis"
+                       placeholder="Enter curtosis"
+                       value="{{ values.curtosis }}" required>
+            </div>
+
+            <div class="field">
+                <label for="entropy">Entropy</label>
+                <input type="number" step="any"
+                       id="entropy" name="entropy"
+                       placeholder="Enter entropy"
+                       value="{{ values.entropy }}" required>
+            </div>
+
+            <button type="submit">
+                Detect Banknote
+            </button>
+
+        </form>
+
+        {% if prediction %}
+            <div class="result
+                {% if prediction == 'Genuine Banknote' %}
+                    genuine
+                {% else %}
+                    counterfeit
+                {% endif %}">
+
+                <h2>Prediction Result</h2>
+                <p>{{ prediction }}</p>
+
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <p class="footer">
+            Powered by Python, Flask and Linear SVM
+        </p>
+
+    </div>
+</body>
+</html>
